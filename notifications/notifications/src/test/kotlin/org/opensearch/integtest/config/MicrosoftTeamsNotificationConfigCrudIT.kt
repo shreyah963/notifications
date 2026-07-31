@@ -159,7 +159,7 @@ class MicrosoftTeamsNotificationConfigCrudIT : PluginRestTestCase() {
             fail("Expected wrong Microsoft Teams URL.")
         } catch (exception: ResponseException) {
             Assert.assertEquals(
-                "Wrong Microsoft Teams url. Should contain \"webhook.office.com\"",
+                "Wrong Microsoft Teams URL. Allowed domains: webhook.office.com, powerplatform.com, logic.azure.com",
                 jsonify(getResponseBody(exception.response))["error"].asJsonObject["reason"].asString
             )
         }
