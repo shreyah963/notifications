@@ -200,13 +200,18 @@ dependencies {
     compileOnly "org.slf4j:slf4j-api:${versions.slf4j}"
     compileOnly "commons-logging:commons-logging:${versions.commonslogging}"
     compileOnly "commons-codec:commons-codec:${versions.commonscodec}"
+    // core already bundles httpclient (classic) and shares its classloader; avoid a second copy
+    compileOnly "org.apache.httpcomponents:httpclient:${versions.httpclient}"
 
-    implementation "org.apache.httpcomponents:httpclient:${versions.httpclient}"
     implementation "org.opensearch.client:opensearch-rest-client:${opensearch_build}"
     api "org.opensearch:opensearch-remote-metadata-sdk:${opensearch_build}"
     implementation ("org.opensearch:opensearch-remote-metadata-sdk-ddb-client:${opensearch_build}") {
         exclude group: 'com.amazonaws', module: 'aws-java-sdk-core'
         exclude group: 'org.bouncycastle'
+        // core already bundles jackson-databind and httpcore (classic) and shares its
+        // classloader; avoid second copies
+        exclude group: 'com.fasterxml.jackson.core', module: 'jackson-databind'
+        exclude group: 'org.apache.httpcomponents', module: 'httpcore'
     }
 
 
